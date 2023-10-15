@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Roller Blinds Control Panel</title>
+
+  <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-app.js"></script>
+
+  <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-database.js"></script>
+
+  <script src="./scripts/config.js"></script>
+
+  <link rel="stylesheet" data-purpose="Layout StyleSheet" title="Web Awesome"
+    href="/css/app-wa-02670e9412103b5852dcbe140d278c49.css?vsn=d">
+
+  <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/all.css">
+
+  <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/sharp-solid.css">
+
+  <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/sharp-regular.css">
+
+  <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/sharp-light.css">
+  <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+  <div class="topnav">
+    <h1>Roller Blinds Control Panel</h1>
+  </div>
+
+  <div id="authentication-bar" style="display: none;">
+    <span style="display:inline-flex;">
+      <span id="authentication-status">Logged in as:</span>
+      <span id="user-details">USEREMAIL</span>
+      <a href="/" id="logout-link">Log out</a>
+    </span>
+  </div>
+
+  <form id="login-form" style="display: block;">
+    <!--<img src="images/placeholder.jpg">-->
+    <h2>Login</h2>
+    <div class="form-elements-container">
+      <label for="input-email"><i class="fa-regular fa-user"></i><b> Email</b></label>
+      <input type="text" placeholder="Enter Email" id="input-email" required>
+
+      <label for="input-password"><i class="fa-regular fa-key"></i> <b>Password</b></label>
+      <input type="password" placeholder="Enter Password" id="input-password" required>
+
+      <button type="submit" id="login-button">Login</button>
+      <p id="error-message" style="color:red;"></p>
+    </div>
+  </form>
+
+  <div class="content-sign-in" id="content-sign-in" style="display: none;">
+    <div class="cards">
+      <div class="card" id="openCard">
+        <i class="fa-regular fa-blinds fa-10x" id="card-icon"></i>
+        <p>Blinds status</p>
+        <div class="custom-checkbox">
+          <input type="checkbox" id="blindsOpen" name="blindsOpen">
+          <label id="blindsOpenLabel" for="blindsOpen"></label>
+          <p id="blindsOpenHint"></p>
+        </div>
+      </div>
+      <div class="card" id="insideCard">
+        <i class="fa-regular fa-temperature-three-quarters fa-10x" id="card-icon"></i>
+        <div id="insideTemp">
+          <p>Inside</p>
+          <p><span class="reading"><span id="inTemp"></span> &deg;C</span></p>
+        </div>
+        <div id="targetTemp">
+          <p>Target</p>
+          <p><span class="reading"><span id="tTemp">25.0</span> &deg;C</span></p>
+          <div class="tTemp-buttons">
+            <button id="tTempUp"><i class="fa-regular fa-arrow-up"></i></button>
+            <button id="tTempDown"><i class="fa-regular fa-arrow-down"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <i class="fa-regular fa-temperature-three-quarters fa-10x" id="card-icon"></i>
+        <p>Outside</p>
+        <p><span class="reading"><span id="outTemp"></span> &deg;C</span></p>
+      </div>
+      <div class="card">
+        <i class="fa-regular fa-sun fa-10x" id="card-icon"></i>
+        <p>Sun intensity</p>
+        <p><span class="reading"><span id="sunIntens"></span> lx</span></p>
+      </div>
+    </div>
+  </div>
+  <script src="scripts/auth.js"></script>
+  <script src="scripts/index.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,162 @@
+html {
+    font-family: Roboto;
+    display: inline-block;
+    text-align: center;
+}
+
+p {
+    font-size: 1.2rem;
+}
+
+body {
+    margin: 0;
+}
+
+.topnav {
+    overflow: hidden;
+    background: linear-gradient(142deg, rgba(254, 95, 117, 1) 0%, rgba(252, 152, 66, 1) 100%);
+    color: white;
+    font-size: 1rem;
+    padding: 10px;
+}
+
+#authentication-bar {
+    background-color: rgba(240, 240, 240, 0.774);
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin: 0;
+    margin-bottom: 30px;
+}
+
+#authentication-bar span {
+    margin-right: 7px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+#user-details {
+    color: rgb(253, 136, 152);
+}
+
+.content {
+    padding: 20px;
+}
+
+.card {
+    background-color: white;
+    box-shadow: 2px 2px 12px 1px rgba(140, 140, 140, .5);
+    padding: 5%;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.cards {
+    max-width: 90vw;
+    margin: 0 auto;
+    display: grid;
+    grid-gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    margin-bottom: 30px;
+}
+
+#insideTemp {
+    width: 50%;
+    float: left;
+    margin-top: 7%;
+}
+
+#targetTemp {
+    width: 50%;
+    float: right;
+    box-shadow: -2px 0px 0px 0px rgba(240, 240, 240, 0.774);
+}
+
+#card-icon {
+    color: rgba(0, 0, 0, 0.144);
+    position: absolute;
+    top: -40px;
+    left: -40px;
+}
+
+.reading {
+    font-size: 1.4rem;
+}
+
+button {
+    background: linear-gradient(142deg, rgba(254, 95, 117, 1) 0%, rgba(252, 152, 66, 1) 100%);
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+.form-elements-container {
+    padding: 16px;
+    width: 250px;
+    margin: 0 auto;
+}
+
+input[type=text],
+input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    border-radius: 6px;
+}
+
+#login-form img {
+    width: 80vw;
+}
+
+#logout-link {
+    color: red;
+    text-decoration: none;
+    background-color: rgb(255, 194, 194);
+    padding: 3px;
+    border-radius: 6px;
+}
+
+#blindsOpen {
+    display: none;
+}
+
+#blindsOpenLabel {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.315);
+    padding: 5px;
+    border-radius: 6px;
+    font-size: 18px;
+}
+
+#openCard {
+    background-color: black;
+    color: white;
+}
+
+#blindsOpenHint {
+    font-size: 12px;
+}
+
+#tTempUp {
+    margin-top: 0;
+}
+
+#tTempDown {
+    margin-top: 0;
+    background: linear-gradient(142deg, rgba(95, 106, 254, 1) 0%, rgba(66, 226, 252, 1) 100%);
+}
+
+#insideCard {
+    padding-left: 0;
+    padding-right: 0;
+}
