@@ -29,9 +29,12 @@ int outTemp;
 int inTemp;
 int tTemp;
 bool isOpen;
+bool isOpenPhysical;
+
+const int sunThreshold = 40000;
 
 unsigned long sendDataPrevMillis = 0;
-unsigned long timerDelay = 60000;
+unsigned long timerDelay = 180000;
 
 void initWiFi() {
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
@@ -68,13 +71,22 @@ bool getBool(String path){
 
 void sendInt(String path, int value){
   if (Firebase.RTDB.setInt(&fbdo, path.c_str(), value)){
-    Serial.print("Writing value: ");
     Serial.println(value);
   }
   else {
     Serial.println("FAILED");
     Serial.println("REASON: " + fbdo.errorReason());
   }
+}
+
+void sendBool(String path, bool value){
+  if (Firebase.RTDB.setBool(&fbdo, path.c_str(), value)){
+    Serial.println(value);
+  }
+  else {
+    Serial.println("FAILED");
+    Serial.println("REASON: " + fbdo.errorReason());
+  }  
 }
 
 void setup(){
@@ -120,30 +132,54 @@ void loop() {
     sendDataPrevMillis = millis();
     
     sunIntensity = getInt(sunPath);
-    Serial.print("Sun intensity: ");
     Serial.println(sunIntensity);
     
     inTemp = getInTemp();
     sendInt(inTempPath, inTemp);
     
     outTemp = getInt(outTempPath);
-    Serial.print("Outside temperature: ");
     Serial.println(outTemp);
 
     tTemp = getInt(targetTempPath);
-    Serial.print("Target temperature: ");
     Serial.println(tTemp/10);
 
     isOpen = getBool(isOpenPath);
-    Serial.print("Blinds are open: ");
     Serial.println(isOpen);
+  }
 
-    isOpenPhysical = getOpenPhysical();
+  delay(2000);
+  Serial.println("Test");
 
-    Serial.println("--------------");
+  bool currentlyOpen = getBool(isOpenPath);
+  isOpenPhysical = getOpenPhysical();
 
-    // Start logic
-
-    
+  if (currentlyOpen != isOpenPhysical){
+    isOpenPhysical = currentlyOpen;
+    if (currentlyOpen) {
+      Serial.println("Opened through UI");
+    } else {
+      Serial.println("Closed through UI");
+    }
+    controlBlinds(currentlyOpen);
+  } else if (getDownButtonPress() && isOpenPhysical){
+    sendBool(isOpenPath, false);
+    Serial.println("Closed through button");
+    controlBlinds(false);
+  } else if (getUpButtonPress() && !isOpenPhysical){
+    sendBool(isOpenPath, true);
+    Serial.println("Opened through button");
+    controlBlinds(true);
+  } else if ((inTemp > tTemp) && (outTemp > tTemp) && (sunIntensity > sunThreshold) && isOpenPhysical){
+    sendBool(isOpenPath, false);
+    Serial.println("Closed through sensors");
+    controlBlinds(false);
+  } else if ((inTemp > tTemp) && (sunIntensity < sunThreshold) && !isOpenPhysical){
+    sendBool(isOpenPath, true);
+    Serial.println("Opened through sensors");
+    controlBlinds(true);
+  } else if ((inTemp < tTemp) && !isOpenPhysical){
+    sendBool(isOpenPath, true);
+    Serial.println("Opened through sensors");
+    controlBlinds(true);
   }
 }
