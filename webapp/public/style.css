@@ -119,6 +119,7 @@ input[type=password] {
 #login-form img {
     width: 40vw;
     margin-top: 30px;
+    max-width: 240px;
 }
 
 .topnav img {
