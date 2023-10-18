@@ -100,8 +100,8 @@ void loop(){
   if (Firebase.ready() && (millis() - sendDataPrevMillis > timerDelay || sendDataPrevMillis == 0)){
     sendDataPrevMillis = millis();
     
-    outTemp = random(100,400);
-    sunIntensity = random(200000, 500000);
+    outTemp = getOutTemp();
+    sunIntensity = getSunIntensity();
 
     sendInt(outTempPath, outTemp);
     sendInt(sunPath, sunIntensity);

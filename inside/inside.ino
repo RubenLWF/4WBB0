@@ -123,7 +123,7 @@ void loop() {
     Serial.print("Sun intensity: ");
     Serial.println(sunIntensity);
     
-    inTemp = random(100, 300);
+    inTemp = getInTemp();
     sendInt(inTempPath, inTemp);
     
     outTemp = getInt(outTempPath);
@@ -138,6 +138,12 @@ void loop() {
     Serial.print("Blinds are open: ");
     Serial.println(isOpen);
 
+    isOpenPhysical = getOpenPhysical();
+
     Serial.println("--------------");
+
+    // Start logic
+
+    
   }
 }
