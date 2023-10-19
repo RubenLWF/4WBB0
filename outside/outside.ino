@@ -2,6 +2,14 @@
 #include <WiFi.h>
 #include <Firebase_ESP_Client.h>
 
+#include <BH1750.h>
+#include <Wire.h>
+
+BH1750 lightMeter;
+
+#include <Adafruit_Sensor.h>
+#include <Adafruit_AM2320.h>
+
 #include "config.h"
 
 //Provide the token generation process info.
@@ -28,6 +36,9 @@ unsigned long sendDataPrevMillis = 0;
 unsigned long timerDelay = 60000;
 
 void initWiFi() {
+  Wire.begin();
+  lightMeter.begin();
+  AM2320.begin();
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   Serial.print("Connecting to Wi-Fi");
   while (WiFi.status() != WL_CONNECTED){

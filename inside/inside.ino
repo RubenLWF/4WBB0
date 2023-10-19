@@ -9,6 +9,9 @@
 //Provide the RTDB payload printing info and other helper functions.
 #include "addons/RTDBHelper.h"
 
+#include <Adafruit_Sensor.h>
+#include <Adafruit_AM2320.h>
+
 //Define Firebase Data object
 FirebaseData fbdo;
 FirebaseAuth auth;

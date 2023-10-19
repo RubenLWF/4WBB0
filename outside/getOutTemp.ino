@@ -1,3 +1,4 @@
 int getOutTemp(){
-  return random(100,400);
+  // Read the temperature and the humidity:
+  return int(AM2320.readTemperature() * 10);
 }

@@ -1,3 +1,3 @@
 int getInTemp(){
-  return random(100,300);
+  return int(AM2320.readTemperature() * 10);
 }

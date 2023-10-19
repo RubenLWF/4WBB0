@@ -1,3 +1,3 @@
 int getSunIntensity(){
-  return random(200000, 500000);
+  return int(lightMeter.readLightLevel() * 10);
 }
