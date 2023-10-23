@@ -10,6 +10,8 @@ BH1750 lightMeter;
 #include <Adafruit_Sensor.h>
 #include <Adafruit_AM2320.h>
 
+Adafruit_AM2320 AM2320 = Adafruit_AM2320();
+
 #include "config.h"
 
 //Provide the token generation process info.

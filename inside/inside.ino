@@ -12,6 +12,8 @@
 #include <Adafruit_Sensor.h>
 #include <Adafruit_AM2320.h>
 
+Adafruit_AM2320 AM2320 = Adafruit_AM2320();
+
 //Define Firebase Data object
 FirebaseData fbdo;
 FirebaseAuth auth;
@@ -96,6 +98,9 @@ void setup(){
   Serial.begin(115200);
 
   initWiFi();
+
+  pinMode(stepPin,OUTPUT); 
+  pinMode(dirPin,OUTPUT);
 
   config.api_key = API_KEY;
   auth.user.email = USER_EMAIL;

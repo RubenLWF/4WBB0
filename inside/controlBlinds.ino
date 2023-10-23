@@ -1,10 +1,26 @@
-const int pin = 3;
+#define stepPin D0
+#define dirPin D1 
 
 void controlBlinds(bool open){
-  if (open){
+  if (open) {
     Serial.println("Opening blinds");
-  } else{
+    digitalWrite(dirPin,HIGH);
+    for(int x = 0; x < 3200; x++) {
+      digitalWrite(stepPin,HIGH); 
+      delayMicroseconds(200);    
+      digitalWrite(stepPin,LOW); 
+      delayMicroseconds(200);
+      Serial.println("Spinning Left");
+    }
+  } else {
     Serial.println("Closing blinds");
+    digitalWrite(dirPin,LOW);
+    for(int x = 0; x < 3200; x++) {
+      digitalWrite(stepPin,HIGH);
+      delayMicroseconds(200);
+      digitalWrite(stepPin,LOW);
+      delayMicroseconds(200);
+    }
   }
   //Stand by decision for 1 minute
   delay(5000);
