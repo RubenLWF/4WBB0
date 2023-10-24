@@ -12,6 +12,9 @@
 #include <Adafruit_Sensor.h>
 #include <Adafruit_AM2320.h>
 
+#define stepPin D1
+#define dirPin D0
+
 Adafruit_AM2320 AM2320 = Adafruit_AM2320();
 
 //Define Firebase Data object
@@ -146,7 +149,7 @@ void loop() {
     sendInt(inTempPath, inTemp);
     
     outTemp = getInt(outTempPath);
-    Serial.println(outTemp);
+    Serial.println(outTemp/10);
 
     tTemp = getInt(targetTempPath);
     Serial.println(tTemp/10);
@@ -159,9 +162,9 @@ void loop() {
   Serial.println("Test");
 
   bool currentlyOpen = getBool(isOpenPath);
-  isOpenPhysical = getOpenPhysical();
-
-  if (currentlyOpen != isOpenPhysical){
+  isOpenPhysical = true;
+  
+  /*if (currentlyOpen != isOpenPhysical){
     isOpenPhysical = currentlyOpen;
     if (currentlyOpen) {
       Serial.println("Opened through UI");
@@ -169,7 +172,7 @@ void loop() {
       Serial.println("Closed through UI");
     }
     controlBlinds(currentlyOpen);
-  } else if (getDownButtonPress() && isOpenPhysical){
+  } else*/ if (getDownButtonPress() && isOpenPhysical){
     sendBool(isOpenPath, false);
     Serial.println("Closed through button");
     controlBlinds(false);

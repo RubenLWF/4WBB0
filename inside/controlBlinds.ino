@@ -1,6 +1,3 @@
-#define stepPin D0
-#define dirPin D1 
-
 void controlBlinds(bool open){
   if (open) {
     Serial.println("Opening blinds");
@@ -10,7 +7,6 @@ void controlBlinds(bool open){
       delayMicroseconds(200);    
       digitalWrite(stepPin,LOW); 
       delayMicroseconds(200);
-      Serial.println("Spinning Left");
     }
   } else {
     Serial.println("Closing blinds");
