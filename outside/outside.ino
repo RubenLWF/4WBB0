@@ -112,12 +112,9 @@ void setup(){
 void loop(){
   if (Firebase.ready() && (millis() - sendDataPrevMillis > timerDelay || sendDataPrevMillis == 0)){
     sendDataPrevMillis = millis();
-    
-    outTemp = getOutTemp();
-    sunIntensity = getSunIntensity();
 
-    sendInt(outTempPath, outTemp);
-    sendInt(sunPath, sunIntensity);
+    sendInt(outTempPath, getOutTemp());
+    sendInt(sunPath, getSunIntensity());
 
     Serial.println("------------");
   }
