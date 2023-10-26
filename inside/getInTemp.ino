@@ -1,4 +1,4 @@
 int getInTemp(){
-  Serial.print(AM2320.readTemperature());
-  return int(AM2320.readTemperature() * 10);
+  Serial.print(am2320.readTemperature());
+  return int(am2320.readTemperature() * 10);
 }

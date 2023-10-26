@@ -9,13 +9,13 @@
 //Provide the RTDB payload printing info and other helper functions.
 #include "addons/RTDBHelper.h"
 
-#include <Adafruit_Sensor.h>
-#include <Adafruit_AM2320.h>
+#include "Adafruit_Sensor.h"
+#include "Adafruit_AM2320.h"
+
+Adafruit_AM2320 am2320 = Adafruit_AM2320();
 
 #define stepPin D1
 #define dirPin D0
-
-Adafruit_AM2320 AM2320 = Adafruit_AM2320();
 
 //Define Firebase Data object
 FirebaseData fbdo;
@@ -37,12 +37,12 @@ int outTemp;
 int inTemp;
 int tTemp;
 bool isOpen;
-bool isOpenPhysical;
+bool isRealOpen = false;
 
 const int sunThreshold = 40000;
 
 unsigned long sendDataPrevMillis = 0;
-unsigned long timerDelay = 180000;
+unsigned long timerDelay = 5000;
 
 void initWiFi() {
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
@@ -98,9 +98,11 @@ void sendBool(String path, bool value){
 }
 
 void setup(){
-  Serial.begin(115200);
+  Serial.begin(9600);
 
   initWiFi();
+
+  am2320.begin();
 
   pinMode(stepPin,OUTPUT); 
   pinMode(dirPin,OUTPUT);
@@ -159,38 +161,39 @@ void loop() {
   }
 
   delay(2000);
-  Serial.println("Test");
 
   bool currentlyOpen = getBool(isOpenPath);
-  isOpenPhysical = true;
   
-  /*if (currentlyOpen != isOpenPhysical){
-    isOpenPhysical = currentlyOpen;
-    if (currentlyOpen) {
+  if (currentlyOpen != isRealOpen){
+    isRealOpen = currentlyOpen;
+    if (isRealOpen) {
       Serial.println("Opened through UI");
     } else {
       Serial.println("Closed through UI");
     }
-    controlBlinds(currentlyOpen);
-  } else*/ if (getDownButtonPress() && isOpenPhysical){
+    controlBlinds(isRealOpen);
+  } /*else if (getDownButtonPress() && isOpen){
     sendBool(isOpenPath, false);
     Serial.println("Closed through button");
     controlBlinds(false);
-  } else if (getUpButtonPress() && !isOpenPhysical){
+  } else if (getUpButtonPress() && !isOpen){
     sendBool(isOpenPath, true);
     Serial.println("Opened through button");
     controlBlinds(true);
-  } else if ((inTemp > tTemp) && (outTemp > tTemp) && (sunIntensity > sunThreshold) && isOpenPhysical){
+  }*/ else if ((inTemp > tTemp) && (outTemp > tTemp) && (sunIntensity > sunThreshold) && isRealOpen){
     sendBool(isOpenPath, false);
     Serial.println("Closed through sensors");
+    isRealOpen = false;
     controlBlinds(false);
-  } else if ((inTemp > tTemp) && (sunIntensity < sunThreshold) && !isOpenPhysical){
+  } else if ((inTemp > tTemp) && (sunIntensity < sunThreshold) && !isRealOpen){
     sendBool(isOpenPath, true);
     Serial.println("Opened through sensors");
+    isRealOpen = true;
     controlBlinds(true);
-  } else if ((inTemp < tTemp) && !isOpenPhysical){
+  } else if ((inTemp < tTemp) && !isRealOpen){
     sendBool(isOpenPath, true);
     Serial.println("Opened through sensors");
+    isRealOpen = true;
     controlBlinds(true);
   }
 }
