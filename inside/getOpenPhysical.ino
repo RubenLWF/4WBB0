@@ -1,3 +1,0 @@
-bool getOpenPhysical(){
-  return false;
-}
