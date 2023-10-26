@@ -172,15 +172,17 @@ void loop() {
       Serial.println("Closed through UI");
     }
     controlBlinds(isRealOpen);
-  } /*else if (getDownButtonPress() && isOpen){
+  } else if (getDownButtonPress() && isRealOpen){
     sendBool(isOpenPath, false);
     Serial.println("Closed through button");
+    isRealOpen = false;
     controlBlinds(false);
-  } else if (getUpButtonPress() && !isOpen){
+  } else if (getUpButtonPress() && !isRealOpen){
     sendBool(isOpenPath, true);
     Serial.println("Opened through button");
+    isRealOpen = true;
     controlBlinds(true);
-  }*/ else if ((inTemp > tTemp) && (outTemp > tTemp) && (sunIntensity > sunThreshold) && isRealOpen){
+  } else if ((inTemp > tTemp) && (outTemp > tTemp) && (sunIntensity > sunThreshold) && isRealOpen){
     sendBool(isOpenPath, false);
     Serial.println("Closed through sensors");
     isRealOpen = false;
