@@ -32,7 +32,7 @@ int tTemp;
 bool isOpen;
 bool isRealOpen = false;
 
-const int sunThreshold = 10000;
+const int sunThreshold = 450000;
 
 unsigned long sendDataPrevMillis = 0;
 unsigned long timerDelay = 5000;
