@@ -1,14 +1,9 @@
 #include <Arduino.h>
 #include <WiFi.h>
 #include <Firebase_ESP_Client.h>
-
 #include "config.h"
-
-//Provide the token generation process info.
 #include "addons/TokenHelper.h"
-//Provide the RTDB payload printing info and other helper functions.
 #include "addons/RTDBHelper.h"
-
 #include "Adafruit_Sensor.h"
 #include "Adafruit_AM2320.h"
 
@@ -17,12 +12,10 @@ Adafruit_AM2320 am2320 = Adafruit_AM2320();
 #define stepPin D1
 #define dirPin D0
 
-//Define Firebase Data object
 FirebaseData fbdo;
 FirebaseAuth auth;
 FirebaseConfig config;
 
-//Variable to save USER UID
 String uid;
 
 String databasePath;
@@ -172,36 +165,36 @@ void loop() {
       Serial.println("Closed through UI");
     }
     delay(5000);
-    //controlBlinds(isRealOpen);
+    controlBlinds(isRealOpen);
   } else if (getDownButtonPress() && isRealOpen){
     sendBool(isOpenPath, false);
     Serial.println("Closed through button");
     isRealOpen = false;
     delay(5000);
-    //controlBlinds(false);
+    controlBlinds(false);
   } else if (getUpButtonPress() && !isRealOpen){
     sendBool(isOpenPath, true);
     Serial.println("Opened through button");
     isRealOpen = true;
     delay(5000);
-    //controlBlinds(true);
+    controlBlinds(true);
   } else if ((inTemp > tTemp) && (outTemp > tTemp) && (sunIntensity > sunThreshold) && isRealOpen){
     sendBool(isOpenPath, false);
     Serial.println("Closed through sensors");
     isRealOpen = false;
     delay(5000);
-    //controlBlinds(false);
+    controlBlinds(false);
   } else if ((inTemp > tTemp) && (sunIntensity < sunThreshold) && !isRealOpen){
     sendBool(isOpenPath, true);
     Serial.println("Opened through sensors");
     isRealOpen = true;
     delay(5000);
-    //controlBlinds(true);
+    controlBlinds(true);
   } else if ((inTemp < tTemp) && !isRealOpen){
     sendBool(isOpenPath, true);
     Serial.println("Opened through sensors");
     isRealOpen = true;
     delay(5000);
-    //controlBlinds(true);
+    controlBlinds(true);
   }
 }
