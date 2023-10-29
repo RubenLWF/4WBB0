@@ -39,7 +39,7 @@ int tTemp;
 bool isOpen;
 bool isRealOpen = false;
 
-const int sunThreshold = 40000;
+const int sunThreshold = 10000;
 
 unsigned long sendDataPrevMillis = 0;
 unsigned long timerDelay = 5000;
@@ -171,31 +171,37 @@ void loop() {
     } else {
       Serial.println("Closed through UI");
     }
-    controlBlinds(isRealOpen);
+    delay(5000);
+    //controlBlinds(isRealOpen);
   } else if (getDownButtonPress() && isRealOpen){
     sendBool(isOpenPath, false);
     Serial.println("Closed through button");
     isRealOpen = false;
-    controlBlinds(false);
+    delay(5000);
+    //controlBlinds(false);
   } else if (getUpButtonPress() && !isRealOpen){
     sendBool(isOpenPath, true);
     Serial.println("Opened through button");
     isRealOpen = true;
-    controlBlinds(true);
+    delay(5000);
+    //controlBlinds(true);
   } else if ((inTemp > tTemp) && (outTemp > tTemp) && (sunIntensity > sunThreshold) && isRealOpen){
     sendBool(isOpenPath, false);
     Serial.println("Closed through sensors");
     isRealOpen = false;
-    controlBlinds(false);
+    delay(5000);
+    //controlBlinds(false);
   } else if ((inTemp > tTemp) && (sunIntensity < sunThreshold) && !isRealOpen){
     sendBool(isOpenPath, true);
     Serial.println("Opened through sensors");
     isRealOpen = true;
-    controlBlinds(true);
+    delay(5000);
+    //controlBlinds(true);
   } else if ((inTemp < tTemp) && !isRealOpen){
     sendBool(isOpenPath, true);
     Serial.println("Opened through sensors");
     isRealOpen = true;
-    controlBlinds(true);
+    delay(5000);
+    //controlBlinds(true);
   }
 }

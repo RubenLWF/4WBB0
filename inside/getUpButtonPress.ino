@@ -1,14 +1,10 @@
-const int upButtonPin = 2;  // the pin that the pushbutton is attached to
-int upButtonState;        // current state of the button
-bool boolUpButtonState = false;    // previous state of the button
-
+int upButtonPin = 9;
 bool getUpButtonPress() {
-  upButtonState = digitalRead(upButtonPin);
-
-  if (upButtonState == 1){
-    boolUpButtonState = true;
+  int buttonValue = digitalRead(upButtonPin);
+  if (buttonValue == LOW){
+    return true;
   } else {
-    boolUpButtonState = false;
+    return false;
   }
-  return boolUpButtonState;
 }
+

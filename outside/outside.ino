@@ -35,7 +35,7 @@ int outTemp;
 int sunIntensity;
 
 unsigned long sendDataPrevMillis = 0;
-unsigned long timerDelay = 10000;
+unsigned long timerDelay = 1000;
 
 void initWiFi() {
   Wire.begin();
