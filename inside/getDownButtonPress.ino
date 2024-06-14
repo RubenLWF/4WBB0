@@ -1,9 +1,13 @@
 int downButtonPin = 8;
-bool getDownButtonPress() {
+bool getDownButtonPress()
+{
   int buttonValue = digitalRead(downButtonPin);
-  if (buttonValue == LOW){
+  if (buttonValue == LOW)
+  {
     return true;
-  } else {
+  }
+  else
+  {
     return false;
   }
 }

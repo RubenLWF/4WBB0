@@ -1,10 +1,13 @@
 int upButtonPin = 9;
-bool getUpButtonPress() {
+bool getUpButtonPress()
+{
   int buttonValue = digitalRead(upButtonPin);
-  if (buttonValue == LOW){
+  if (buttonValue == LOW)
+  {
     return true;
-  } else {
+  }
+  else
+  {
     return false;
   }
 }
-

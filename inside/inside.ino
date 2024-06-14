@@ -37,10 +37,12 @@ const int sunThreshold = 450000;
 unsigned long sendDataPrevMillis = 0;
 unsigned long timerDelay = 5000;
 
-void initWiFi() {
+void initWiFi()
+{
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   Serial.print("Connecting to Wi-Fi");
-  while (WiFi.status() != WL_CONNECTED){
+  while (WiFi.status() != WL_CONNECTED)
+  {
     Serial.print(".");
     delay(300);
   }
@@ -49,56 +51,70 @@ void initWiFi() {
   Serial.println();
 }
 
-int getInt(String path){
-  if (Firebase.RTDB.getInt(&fbdo, path.c_str())) {
-      if (fbdo.dataType() == "int") {
-        int temperature = fbdo.intData();
-        return temperature;
-      }
+int getInt(String path)
+{
+  if (Firebase.RTDB.getInt(&fbdo, path.c_str()))
+  {
+    if (fbdo.dataType() == "int")
+    {
+      int temperature = fbdo.intData();
+      return temperature;
     }
-    else {
-      Serial.println(fbdo.errorReason());
-    }
+  }
+  else
+  {
+    Serial.println(fbdo.errorReason());
+  }
 }
 
-bool getBool(String path){
-  if (Firebase.RTDB.getBool(&fbdo, path.c_str())) {
-    if (fbdo.dataType() == "bool") {
+bool getBool(String path)
+{
+  if (Firebase.RTDB.getBool(&fbdo, path.c_str()))
+  {
+    if (fbdo.dataType() == "bool")
+    {
       bool isOpen = fbdo.boolData();
       return isOpen;
     }
   }
 }
 
-void sendInt(String path, int value){
-  if (Firebase.RTDB.setInt(&fbdo, path.c_str(), value)){
+void sendInt(String path, int value)
+{
+  if (Firebase.RTDB.setInt(&fbdo, path.c_str(), value))
+  {
     Serial.println(value);
   }
-  else {
+  else
+  {
     Serial.println("FAILED");
     Serial.println("REASON: " + fbdo.errorReason());
   }
 }
 
-void sendBool(String path, bool value){
-  if (Firebase.RTDB.setBool(&fbdo, path.c_str(), value)){
+void sendBool(String path, bool value)
+{
+  if (Firebase.RTDB.setBool(&fbdo, path.c_str(), value))
+  {
     Serial.println(value);
   }
-  else {
+  else
+  {
     Serial.println("FAILED");
     Serial.println("REASON: " + fbdo.errorReason());
-  }  
+  }
 }
 
-void setup(){
+void setup()
+{
   Serial.begin(9600);
 
   initWiFi();
 
   am2320.begin();
 
-  pinMode(stepPin,OUTPUT); 
-  pinMode(dirPin,OUTPUT);
+  pinMode(stepPin, OUTPUT);
+  pinMode(dirPin, OUTPUT);
 
   config.api_key = API_KEY;
   auth.user.email = USER_EMAIL;
@@ -115,7 +131,8 @@ void setup(){
   Firebase.begin(&config, &auth);
 
   Serial.println("Getting User UID");
-  while ((auth.token.uid) == "") {
+  while ((auth.token.uid) == "")
+  {
     Serial.print(".");
     delay(1000);
   }
@@ -133,21 +150,23 @@ void setup(){
   isOpenPath = databasePath + "/blindsOpen";
 }
 
-void loop() {
-  if (Firebase.ready() && (millis() - sendDataPrevMillis > timerDelay || sendDataPrevMillis == 0)){
+void loop()
+{
+  if (Firebase.ready() && (millis() - sendDataPrevMillis > timerDelay || sendDataPrevMillis == 0))
+  {
     sendDataPrevMillis = millis();
-    
+
     sunIntensity = getInt(sunPath);
     Serial.println(sunIntensity);
-    
+
     inTemp = getInTemp();
     sendInt(inTempPath, inTemp);
-    
+
     outTemp = getInt(outTempPath);
-    Serial.println(outTemp/10);
+    Serial.println(outTemp / 10);
 
     tTemp = getInt(targetTempPath);
-    Serial.println(tTemp/10);
+    Serial.println(tTemp / 10);
 
     isOpen = getBool(isOpenPath);
     Serial.println(isOpen);
@@ -156,41 +175,55 @@ void loop() {
   delay(2000);
 
   bool currentlyOpen = getBool(isOpenPath);
-  
-  if (currentlyOpen != isRealOpen){
+
+  if (currentlyOpen != isRealOpen)
+  {
     isRealOpen = currentlyOpen;
-    if (isRealOpen) {
+    if (isRealOpen)
+    {
       Serial.println("Opened through UI");
-    } else {
+    }
+    else
+    {
       Serial.println("Closed through UI");
     }
     delay(5000);
     controlBlinds(isRealOpen);
-  } else if (getDownButtonPress() && isRealOpen){
+  }
+  else if (getDownButtonPress() && isRealOpen)
+  {
     sendBool(isOpenPath, false);
     Serial.println("Closed through button");
     isRealOpen = false;
     delay(5000);
     controlBlinds(false);
-  } else if (getUpButtonPress() && !isRealOpen){
+  }
+  else if (getUpButtonPress() && !isRealOpen)
+  {
     sendBool(isOpenPath, true);
     Serial.println("Opened through button");
     isRealOpen = true;
     delay(5000);
     controlBlinds(true);
-  } else if ((inTemp > tTemp) && (outTemp > tTemp) && (sunIntensity > sunThreshold) && isRealOpen){
+  }
+  else if ((inTemp > tTemp) && (outTemp > tTemp) && (sunIntensity > sunThreshold) && isRealOpen)
+  {
     sendBool(isOpenPath, false);
     Serial.println("Closed through sensors");
     isRealOpen = false;
     delay(5000);
     controlBlinds(false);
-  } else if ((inTemp > tTemp) && (sunIntensity < sunThreshold) && !isRealOpen){
+  }
+  else if ((inTemp > tTemp) && (sunIntensity < sunThreshold) && !isRealOpen)
+  {
     sendBool(isOpenPath, true);
     Serial.println("Opened through sensors");
     isRealOpen = true;
     delay(5000);
     controlBlinds(true);
-  } else if ((inTemp < tTemp) && !isRealOpen){
+  }
+  else if ((inTemp < tTemp) && !isRealOpen)
+  {
     sendBool(isOpenPath, true);
     Serial.println("Opened through sensors");
     isRealOpen = true;
